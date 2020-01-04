@@ -1,5 +1,6 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
+import argparse
 from bs4 import BeautifulSoup
 import csv
 import requests
@@ -379,11 +380,28 @@ def get_course_object_list():
 
 
 def main():
-    files = File_Utils()
-    files.write_to_csv(get_course_object_list(), "/tmp/writer.csv")
-    global total_bytes_transfered
-    print("Bytes wasted: {}".format(
-        total_bytes_transfered))
+    parser = argparse.ArgumentParser(description=("Scrapes MTU's banweb page to"
+        " gather known courses that transfer in and what they are equivalent"
+        "to.")
+        )
+    parser.add_argument("--version", action="store_true",
+            help="Displays the current program version")
+    parser.add_argument("-v", "--verbose", help="Enables verbose output",
+            action="count", default=0)
+    parser.add_argument("-o", "--output", help=("Name of the file to output "
+            "data to.\nDefaults to banwebScrape.FORMAT")
+            )
+    parser.add_argument("-f", "--format", help=("Select a format (TYPE) to write"
+            "the data in to the file.\n"
+            "Valid Formats:\n\tcsv (default)\n\tjson")
+        )
+
+    parser.parse_args()
+#    files = File_Utils()
+#    files.write_to_csv(get_course_object_list(), "/tmp/writer.csv")
+#    global total_bytes_transfered
+#    print("Bytes wasted: {}".format(
+#        total_bytes_transfered))
 
 
 if __name__ == "__main__":
